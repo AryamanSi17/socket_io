@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
         username:CHAT_BOT,
         _createdtime_,
     });
-;
     // We can write our socket event listeners in here...
   });
+});
 server.listen(4000,()=>'Server is running on port 4000');
