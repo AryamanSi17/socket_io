@@ -5,6 +5,9 @@ const cors=require('cors');
 const {Server}=require('socket.io');
 app.use(cors());
 const CHAT_BOT='ChatBot';
+let chatRoom='';
+let allUsers=[];
+
 const server=http.createServer(app);
 app.get('/', (req, res) => {
     res.send('Hello world');
@@ -27,7 +30,17 @@ app.get('/', (req, res) => {
         username:CHAT_BOT,
         _createdtime_,
     });
+    socket.emit('receive_message',{
+      message:'Welcome ${username}',
+      username:CHAT_BOT,
+      _createdtime_,
+    })
     // We can write our socket event listeners in here...
+  //ading new user to room logic
+  chatRoom=room;
+  allUsers.push({id:socket.id,username,room});
+  chatRoomUsers=allUsers.filter((user)=>user.room===room);
+  socket.to(room).emit('chatroom_users',chatRoomUsers);
   });
 });
 server.listen(4000,()=>'Server is running on port 4000');
